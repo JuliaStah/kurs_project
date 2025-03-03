@@ -4,6 +4,8 @@ import Sidebar from "./components/Sidebar";
 import Route from "./components/Route";
 import DiagramPage from "./pages/DiagramPage";
 import TablePage from "./pages/TablePage";
+import FavouritePage from "./pages/FavouritePage";
+import DownloadPage from "./pages/DownloadPage";
 import {useState} from "react";
 
 function App({onSubmit}) {
@@ -110,12 +112,6 @@ function App({onSubmit}) {
             </div>
             <div className="container flex justify-end gap-4 mt-2">
                 <div>
-                    <button>Избранное</button>
-                </div>
-                <div>
-                    <button>Мои загрузки</button>
-                </div>
-                <div>
                     <button onClick={openModalLogin}>Войти</button>
                     <Modal isOpen={modalLoginIsOpen} onRequestClose={closeModalLogin}>
                         {modalContentLogin}
@@ -131,11 +127,19 @@ function App({onSubmit}) {
             <div className="container mx-auto grid grid-cols-6 gap-4 mt-3">
                 <Sidebar/>
                 <div className="col-span-5">
-                    <Route path='/diagrams'>
+                    <Route path="/diagrams">
                         <DiagramPage/>
                     </Route>
-                    <Route path='/tables'>
+                    <Route path="/tables">
                         <TablePage/>
+                    </Route>
+                </div>
+                <div className="col-span-5">
+                    <Route path="/favourite">
+                        <FavouritePage/>
+                    </Route>
+                    <Route path="/downloads">
+                        <DownloadPage/>
                     </Route>
                 </div>
             </div>

@@ -2,8 +2,10 @@ import Link from './Link';
 
 function Sidebar() {
     const links = [
-        {label: 'Диаграммы', path: '/diagrams'},
-        {label: 'Таблицы', path: '/tables'},
+        {label: 'Диаграммы', path: "/diagrams"},
+        {label: 'Таблицы', path: "/tables"},
+        {label: 'Избранное', path: "/favourite"},
+        {label: 'Загрузки', path: "/downloads"},
     ];
 
     const renderedLinks = links.map((link) => {
