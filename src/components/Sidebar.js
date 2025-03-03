@@ -5,7 +5,7 @@ function Sidebar() {
         {label: 'Диаграммы', path: "/diagrams"},
         {label: 'Таблицы', path: "/tables"},
         {label: 'Избранное', path: "/favourite"},
-        {label: 'Загрузки', path: "/downloads"},
+        {label: 'Мои загрузки', path: "/downloads"},
     ];
 
     const renderedLinks = links.map((link) => {
