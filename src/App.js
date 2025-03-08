@@ -11,9 +11,13 @@ import {useState} from "react";
 function App({onSubmit}) {
     const [modalLoginIsOpen, setModalLoginIsOpen] = useState(false);
     const [modalSignupIsOpen, setModalSignupIsOpen] = useState(false);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [loginEmail, setLoginEmail] = useState('');
+    const [loginPassword, setLoginPassword] = useState('');
+    const [signupEmail, setSignupEmail] = useState('');
+    const [signupPassword, setSignupPassword] = useState('');
     const [username, setUsername] = useState('');
+    const [message, setMessage] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const openModalLogin = () => {
         setModalLoginIsOpen(true);
@@ -31,19 +35,82 @@ function App({onSubmit}) {
         setModalSignupIsOpen(false);
     };
 
-    const handleFormSubmit = (event) => {
-        event.preventDefault();
-        onSubmit(email);
-        onSubmit(password);
-        onSubmit(username);
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        setMessage('');
+
+        try {
+            const response = await fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, signupEmail, signupPassword }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Ошибка регистрации');
+            }
+
+            const data = await response.json();
+            setMessage(data.message);
+            setUsername('');
+            setSignupEmail('');
+            setSignupPassword('');
+            closeModalSignup();
+
+        } catch (error) {
+            setMessage(`Ошибка: ${error.message}`);
+        }
+
+        try {
+            const response = await fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ loginEmail, loginPassword }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Ошибка входа');
+            }
+
+            const data = await response.json();
+            setMessage(data.message);
+            setIsLoggedIn(true);
+            localStorage.setItem('authToken', data.token);
+            closeModalLogin();
+
+        } catch (error) {
+            setMessage(`Ошибка: ${error.message}`);
+        }
+
+        setIsLoggedIn(true);
     };
 
-    const handleChangeEmail = (event) => {
-        setEmail(event.target.value);
+    const handleLogout = () => {
+        localStorage.removeItem('authToken');
+        setIsLoggedIn(false);
     };
 
-    const handleChangePassword = (event) => {
-        setPassword(event.target.value);
+
+    const handleChangeLoginEmail = (event) => {
+        setLoginEmail(event.target.value);
+    };
+
+    const handleChangeLoginPassword = (event) => {
+        setLoginPassword(event.target.value);
+    };
+
+    const handleChangeSignupEmail = (event) => {
+        setSignupEmail(event.target.value);
+    };
+
+    const handleChangeSignupPassword = (event) => {
+        setSignupPassword(event.target.value);
     };
 
     const handleChangeUsername = (event) => {
@@ -52,53 +119,71 @@ function App({onSubmit}) {
 
     const modalContentLogin = (
         <div className="container">
+            {isLoggedIn ? (
+                <>
+                    <h2>Вы вошли в систему</h2>
+                    <button onClick={handleLogout}>Выйти</button>
+                </>
+            ) : (
+                <>
             <h2>Войти в систему</h2>
             <div>
                 <form onSubmit={handleFormSubmit}>
                     <div>
                         <label>Введите эл. почту:</label>
-                        <input value={email} onChange={handleChangeEmail}/>
+                        <input type="email" value={loginEmail} onChange={handleChangeLoginEmail} required/>
                     </div>
                     <div>
                         <label>Введите пароль:</label>
-                        <input value={password} onChange={handleChangePassword}/>
+                        <input type="password" value={loginPassword} onChange={handleChangeLoginPassword} required/>
                     </div>
                 </form>
             </div>
             <div>
-                <button>Войти</button>
+                <button onClick={handleFormSubmit}>Войти</button>
             </div>
             <div>
                 <button onClick={closeModalLogin}>Закрыть</button>
             </div>
+            </>
+            )}
         </div>
     );
 
     const modalContentSignup = (
         <div className="container">
+            {isLoggedIn ? (
+                <>
+                    <h2>Вы авторизованы как {username}</h2>
+                    <button onClick={handleLogout}>Выйти</button>
+                </>
+            ) : (
+                <>
             <h2>Создать аккаунт</h2>
             <div>
                 <form onSubmit={handleFormSubmit}>
                     <div>
                         <label>Введите имя пользователя:</label>
-                        <input value={username} onChange={handleChangeUsername}/>
+                        <input type="text" value={username} onChange={handleChangeUsername} required/>
                     </div>
                     <div>
                         <label>Введите эл. почту:</label>
-                        <input value={email} onChange={handleChangeEmail}/>
+                        <input type="email" value={signupEmail} onChange={handleChangeSignupEmail} required/>
                     </div>
                     <div>
                         <label>Введите пароль:</label>
-                        <input value={password} onChange={handleChangePassword}/>
+                        <input type="password" value={signupPassword} onChange={handleChangeSignupPassword} required/>
                     </div>
                 </form>
             </div>
             <div>
-                <button>Зарегистрироваться</button>
+                <button onClick={handleFormSubmit}>Зарегистрироваться</button>
             </div>
             <div>
                 <button onClick={closeModalSignup}>Закрыть</button>
             </div>
+            </>
+            )}
         </div>
     );
 
