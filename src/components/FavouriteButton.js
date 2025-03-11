@@ -1,8 +1,6 @@
 function FavouriteButton() {
     return (
-        <div>
-
-        </div>
+        <button>Добавить в избранное</button>
     );
 }
 

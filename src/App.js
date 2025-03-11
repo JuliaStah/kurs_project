@@ -1,4 +1,5 @@
 import 'bulma/css/bulma.css';
+import "./App.css"
 import Modal from 'react-modal';
 import Sidebar from "./components/Sidebar";
 import Route from "./components/Route";
