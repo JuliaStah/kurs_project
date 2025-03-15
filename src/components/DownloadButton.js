@@ -1,6 +1,14 @@
-function DownloadButton() {
+function DownloadButton({urlJPG, urlPPTX}) {
     return (
-        <button>Скачать</button>
+        <div className="flex gap-2">
+            <p>Скачать:</p>
+            <a href={urlJPG} download>
+                <button>.jpg</button>
+            </a>
+            <a href={urlPPTX} download>
+                <button>.pptx</button>
+            </a>
+        </div>
     );
 }
 

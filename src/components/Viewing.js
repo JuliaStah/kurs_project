@@ -1,9 +1,9 @@
-function DownloadButton({img}) {
+function Viewing({img}) {
     return (
         <div>
-            <img src={img} alt="button icon" width={30} height={30}/>
+            <img src={img} alt="icon" width={40} height={40}/>
         </div>
     );
 }
 
-export default DownloadButton;
+export default Viewing;

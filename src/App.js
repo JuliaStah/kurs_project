@@ -1,5 +1,4 @@
 import 'bulma/css/bulma.css';
-import "./App.css"
 import Modal from 'react-modal';
 import Sidebar from "./components/Sidebar";
 import Route from "./components/Route";
@@ -192,7 +191,7 @@ function App({onSubmit}) {
         <div>
             <div className="hero is-dark">
                 <div className="hero-body">
-                    <p className="title is-2">InfoGraphic</p>
+                    <a href="/" className="title is-2">InfoGraphic</a>
                     <p className="subtitle is-6">Инфографика для презентаций</p>
                 </div>
             </div>
