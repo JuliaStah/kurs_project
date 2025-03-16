@@ -17,7 +17,7 @@ function DiagramPage() {
                     <Viewing img={ViewingIcon}/>
                     <div className="container flex justify-end gap-4">
                         <DownloadButton urlJPG={DiagramOneImgJPG} urlPPTX={DiagramOneImgPPTX} />
-                        <FavouriteButton />
+                        <FavouriteButton item={DiagramOneImgJPG} />
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@ function DiagramPage() {
                     <Viewing img={ViewingIcon}/>
                     <div className="container flex justify-end gap-4">
                         <DownloadButton urlJPG={DiagramTwoImgJPG} urlPPTX={DiagramTwoImgPPTX} />
-                        <FavouriteButton />
+                        <FavouriteButton item={DiagramTwoImgJPG} />
                     </div>
                 </div>
             </div>

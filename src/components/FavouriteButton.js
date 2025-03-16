@@ -1,6 +1,14 @@
-function FavouriteButton() {
+import React, { useState } from 'react';
+
+function FavouriteButton({ item, onToggleFavorite, isFavorite }) {
+    const handleToggleFavorite = () => {
+        onToggleFavorite(item);
+    };
+
     return (
-        <button>Добавить в избранное</button>
+        <button onClick={handleToggleFavorite}>
+            {isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
+        </button>
     );
 }
 

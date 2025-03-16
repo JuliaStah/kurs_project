@@ -17,7 +17,7 @@ function TablePage() {
                     <Viewing img={ViewingIcon}/>
                     <div className="container flex justify-end gap-4">
                         <DownloadButton urlJPG={TableOneImgJPG} urlPPTX={TableOneImgPPTX} />
-                        <FavouriteButton />
+                        <FavouriteButton item={TableOneImgJPG} />
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@ function TablePage() {
                     <Viewing img={ViewingIcon}/>
                     <div className="container flex justify-end gap-4">
                         <DownloadButton urlJPG={TableTwoImgJPG} urlPPTX={TableTwoImgPPTX} />
-                        <FavouriteButton />
+                        <FavouriteButton item={TableTwoImgJPG} />
                     </div>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import 'bulma/css/bulma.css';
 import Modal from 'react-modal';
+import "./App.css";
 import Sidebar from "./components/Sidebar";
 import Route from "./components/Route";
 import DiagramPage from "./pages/DiagramPage";
@@ -118,72 +119,76 @@ function App({onSubmit}) {
     };
 
     const modalContentLogin = (
-        <div className="container">
-            {isLoggedIn ? (
-                <>
-                    <h2>Вы вошли в систему</h2>
-                    <button onClick={handleLogout}>Выйти</button>
-                </>
-            ) : (
-                <>
-            <h2>Войти в систему</h2>
-            <div>
-                <form onSubmit={handleFormSubmit}>
-                    <div>
-                        <label>Введите эл. почту:</label>
-                        <input type="email" value={loginEmail} onChange={handleChangeLoginEmail} required/>
-                    </div>
-                    <div>
-                        <label>Введите пароль:</label>
-                        <input type="password" value={loginPassword} onChange={handleChangeLoginPassword} required/>
-                    </div>
-                </form>
+        <div className="modal-overlay">
+            <div className="modal-container">
+                {isLoggedIn ? (
+                    <>
+                        <h2>Вы вошли в систему</h2>
+                        <button onClick={handleLogout}>Выйти</button>
+                    </>
+                ) : (
+                    <>
+                        <h2>Войти в систему</h2>
+                        <div>
+                            <form onSubmit={handleFormSubmit}>
+                                <div>
+                                    <label className="label">Введите эл. почту:</label>
+                                    <input type="email" className="input" value={loginEmail} onChange={handleChangeLoginEmail} required/>
+                                </div>
+                                <div>
+                                    <label className="label">Введите пароль:</label>
+                                    <input type="password" className="input" value={loginPassword} onChange={handleChangeLoginPassword} required/>
+                                </div>
+                            </form>
+                        </div>
+                        <div>
+                            <button onClick={handleFormSubmit}>Войти</button>
+                        </div>
+                        <div>
+                            <button onClick={closeModalLogin}>Закрыть</button>
+                        </div>
+                    </>
+                )}
             </div>
-            <div>
-                <button onClick={handleFormSubmit}>Войти</button>
-            </div>
-            <div>
-                <button onClick={closeModalLogin}>Закрыть</button>
-            </div>
-            </>
-            )}
         </div>
     );
 
     const modalContentSignup = (
-        <div className="container">
-            {isLoggedIn ? (
-                <>
-                    <h2>Вы авторизованы как {username}</h2>
-                    <button onClick={handleLogout}>Выйти</button>
-                </>
-            ) : (
-                <>
-            <h2>Создать аккаунт</h2>
-            <div>
-                <form onSubmit={handleFormSubmit}>
-                    <div>
-                        <label>Введите имя пользователя:</label>
-                        <input type="text" value={username} onChange={handleChangeUsername} required/>
-                    </div>
-                    <div>
-                        <label>Введите эл. почту:</label>
-                        <input type="email" value={signupEmail} onChange={handleChangeSignupEmail} required/>
-                    </div>
-                    <div>
-                        <label>Введите пароль:</label>
-                        <input type="password" value={signupPassword} onChange={handleChangeSignupPassword} required/>
-                    </div>
-                </form>
+        <div className="modal-overlay">
+            <div className="modal-container">
+                {isLoggedIn ? (
+                    <>
+                        <h2>Вы авторизованы как {username}</h2>
+                        <button onClick={handleLogout}>Выйти</button>
+                    </>
+                ) : (
+                    <>
+                        <h2>Создать аккаунт</h2>
+                        <div>
+                            <form onSubmit={handleFormSubmit}>
+                                <div>
+                                    <label className="label">Введите имя пользователя:</label>
+                                    <input type="text" className="input" value={username} onChange={handleChangeUsername} required/>
+                                </div>
+                                <div>
+                                    <label className="label">Введите эл. почту:</label>
+                                    <input type="email" className="input" value={signupEmail} onChange={handleChangeSignupEmail} required/>
+                                </div>
+                                <div>
+                                    <label className="label">Введите пароль:</label>
+                                    <input type="password" className="input" value={signupPassword} onChange={handleChangeSignupPassword} required/>
+                                </div>
+                            </form>
+                        </div>
+                        <div>
+                            <button onClick={handleFormSubmit}>Зарегистрироваться</button>
+                        </div>
+                        <div>
+                            <button onClick={closeModalSignup}>Закрыть</button>
+                        </div>
+                    </>
+                )}
             </div>
-            <div>
-                <button onClick={handleFormSubmit}>Зарегистрироваться</button>
-            </div>
-            <div>
-                <button onClick={closeModalSignup}>Закрыть</button>
-            </div>
-            </>
-            )}
         </div>
     );
 

@@ -1,0 +1,48 @@
+.modal-container {
+    background-color: black;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.modal-container h2 {
+    margin-bottom: 16px;
+}
+
+.modal-container p {
+    margin-bottom: 16px;
+}
+
+.modal-container button {
+    margin-top: 8px;
+}
+
+.modal-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.label {
+    margin-bottom: 8px; /* Отступ снизу от label */
+    display: block; /* Убедитесь, что label отображается как блочный элемент */
+}
+
+.input {
+    margin-bottom: 16px; /* Отступ снизу от input (по желанию) */
+    width: 100%; /* Убедитесь, что input занимает всю ширину контейнера */
+    padding: 10px; /* Добавьте параметры padding для улучшения внешнего вида */
+    border-radius: 4px; /* Закругление углов (по желанию) */
+    border: 1px solid #ccc; /* Цвет границы */
+}
