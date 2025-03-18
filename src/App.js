@@ -92,12 +92,6 @@ function App({onSubmit}) {
         setIsLoggedIn(true);
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem('authToken');
-        setIsLoggedIn(false);
-    };
-
-
     const handleChangeLoginEmail = (event) => {
         setLoginEmail(event.target.value);
     };
@@ -121,34 +115,25 @@ function App({onSubmit}) {
     const modalContentLogin = (
         <div className="modal-overlay">
             <div className="modal-container">
-                {isLoggedIn ? (
-                    <>
-                        <h2>Вы вошли в систему</h2>
-                        <button onClick={handleLogout}>Выйти</button>
-                    </>
-                ) : (
-                    <>
-                        <h2>Войти в систему</h2>
+                <h2>Войти в систему</h2>
+                <div>
+                    <form onSubmit={handleFormSubmit}>
                         <div>
-                            <form onSubmit={handleFormSubmit}>
-                                <div>
-                                    <label className="label">Введите эл. почту:</label>
-                                    <input type="email" className="input" value={loginEmail} onChange={handleChangeLoginEmail} required/>
-                                </div>
-                                <div>
-                                    <label className="label">Введите пароль:</label>
-                                    <input type="password" className="input" value={loginPassword} onChange={handleChangeLoginPassword} required/>
-                                </div>
-                            </form>
+                            <label className="label">Введите эл. почту:</label>
+                            <input type="email" className="input" value={loginEmail} onChange={handleChangeLoginEmail} required/>
                         </div>
                         <div>
-                            <button onClick={handleFormSubmit}>Войти</button>
+                            <label className="label">Введите пароль:</label>
+                            <input type="password" className="input" value={loginPassword} onChange={handleChangeLoginPassword} required/>
                         </div>
-                        <div>
-                            <button onClick={closeModalLogin}>Закрыть</button>
-                        </div>
-                    </>
-                )}
+                    </form>
+                </div>
+                <div>
+                    <button onClick={handleFormSubmit}>Войти</button>
+                </div>
+                <div>
+                    <button onClick={closeModalLogin}>Закрыть</button>
+                </div>
             </div>
         </div>
     );
@@ -156,38 +141,29 @@ function App({onSubmit}) {
     const modalContentSignup = (
         <div className="modal-overlay">
             <div className="modal-container">
-                {isLoggedIn ? (
-                    <>
-                        <h2>Вы авторизованы как {username}</h2>
-                        <button onClick={handleLogout}>Выйти</button>
-                    </>
-                ) : (
-                    <>
-                        <h2>Создать аккаунт</h2>
+                <h2>Создать аккаунт</h2>
+                <div>
+                    <form onSubmit={handleFormSubmit}>
                         <div>
-                            <form onSubmit={handleFormSubmit}>
-                                <div>
-                                    <label className="label">Введите имя пользователя:</label>
-                                    <input type="text" className="input" value={username} onChange={handleChangeUsername} required/>
-                                </div>
-                                <div>
-                                    <label className="label">Введите эл. почту:</label>
-                                    <input type="email" className="input" value={signupEmail} onChange={handleChangeSignupEmail} required/>
-                                </div>
-                                <div>
-                                    <label className="label">Введите пароль:</label>
-                                    <input type="password" className="input" value={signupPassword} onChange={handleChangeSignupPassword} required/>
-                                </div>
-                            </form>
+                            <label className="label">Введите имя пользователя:</label>
+                            <input type="text" className="input" value={username} onChange={handleChangeUsername} required/>
                         </div>
                         <div>
-                            <button onClick={handleFormSubmit}>Зарегистрироваться</button>
+                            <label className="label">Введите эл. почту:</label>
+                            <input type="email" className="input" value={signupEmail} onChange={handleChangeSignupEmail} required/>
                         </div>
                         <div>
-                            <button onClick={closeModalSignup}>Закрыть</button>
+                            <label className="label">Введите пароль:</label>
+                            <input type="password" className="input" value={signupPassword} onChange={handleChangeSignupPassword} required/>
                         </div>
-                    </>
-                )}
+                    </form>
+                </div>
+                <div>
+                    <button onClick={handleFormSubmit}>Зарегистрироваться</button>
+                </div>
+                <div>
+                    <button onClick={closeModalSignup}>Закрыть</button>
+                </div>
             </div>
         </div>
     );

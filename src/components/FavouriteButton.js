@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useFavorites } from '../context/FavouriteContext';
 
-function FavouriteButton({ item, onToggleFavorite, isFavorite }) {
+function FavouriteButton({ item }) {
+    const { favorites, toggleFavorite } = useFavorites();
+    const isFavorite = favorites.includes(item);
+
     const handleToggleFavorite = () => {
-        onToggleFavorite(item);
+        toggleFavorite(item);
     };
 
     return (

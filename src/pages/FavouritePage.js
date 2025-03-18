@@ -1,45 +1,21 @@
-import React, { useState } from 'react';
-import FavouriteButton from '../components/FavouriteButton';
+import React from 'react';
+import { useFavorites } from '../context/FavouriteContext';
 
 function FavouritePage() {
-    const [favoriteItems, setFavoriteItems] = useState([]); // Состояние для хранения избранных элементов
-
-    const handleToggleFavorite = (item) => {
-        setFavoriteItems((prev) => {
-            if (prev.includes(item)) {
-                // Если элемент уже в избранном, удаляем его
-                return prev.filter((i) => i !== item);
-            } else {
-                // Если элемента нет, добавляем его в избранное
-                return [...prev, item];
-            }
-        });
-    };
+    const { favorites, toggleFavorite } = useFavorites();
 
     return (
         <div>
-            <h1>Мои избранные элементы</h1>
-            <FavouriteButton
-                item="Инфографика 1"
-                onToggleFavorite={handleToggleFavorite}
-                isFavorite={favoriteItems.includes("Инфографика 1")}
-            />
-            <FavouriteButton
-                item="Инфографика 2"
-                onToggleFavorite={handleToggleFavorite}
-                isFavorite={favoriteItems.includes("Инфографика 2")}
-            />
-            <FavouriteButton
-                item="Инфографика 3"
-                onToggleFavorite={handleToggleFavorite}
-                isFavorite={favoriteItems.includes("Инфографика 3")}
-            />
-            <h2>Добавленные в избранное:</h2>
             <ul>
-                {favoriteItems.length > 0 ? (
-                    favoriteItems.map((item) => <li key={item}>{item}</li>)
-                ) : (
-                    <li>Нет избранных элементов</li>
+                {favorites.length > 0 ? favorites.map((item, index) => (
+                    <li key={index}>
+                        <img src={item} alt={`Избранный элемент ${index + 1}`} />
+                        <button className="container flex justify-end" onClick={() => toggleFavorite(item)}>
+                            Удалить из избранного
+                        </button>
+                    </li>
+                )) : (
+                    <li>Нет избранной инфографики</li>
                 )}
             </ul>
         </div>
