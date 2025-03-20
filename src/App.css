@@ -35,14 +35,14 @@
 }
 
 .label {
-    margin-bottom: 8px; /* Отступ снизу от label */
-    display: block; /* Убедитесь, что label отображается как блочный элемент */
+    margin-bottom: 8px;
+    display: block;
 }
 
 .input {
-    margin-bottom: 16px; /* Отступ снизу от input (по желанию) */
-    width: 100%; /* Убедитесь, что input занимает всю ширину контейнера */
-    padding: 10px; /* Добавьте параметры padding для улучшения внешнего вида */
-    border-radius: 4px; /* Закругление углов (по желанию) */
-    border: 1px solid #ccc; /* Цвет границы */
+    margin-bottom: 16px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
 }

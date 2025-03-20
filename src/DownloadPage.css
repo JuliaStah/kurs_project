@@ -1,0 +1,22 @@
+.download-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.delete-all-button {
+    position: absolute;
+    background-color: #9370db;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.delete-all-button:hover {
+    background-color: #663399;
+}
