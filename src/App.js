@@ -178,13 +178,13 @@ function App({onSubmit}) {
             </div>
             <div className="container flex justify-end gap-4 mt-2">
                 <div>
-                    <button onClick={openModalLogin}>Войти</button>
+                    <a onClick={openModalLogin}>Войти</a>
                     <Modal isOpen={modalLoginIsOpen} onRequestClose={closeModalLogin}>
                         {modalContentLogin}
                     </Modal>
                 </div>
                 <div>
-                    <button onClick={openModalSignup}>Зарегистрироваться</button>
+                    <a onClick={openModalSignup}>Зарегистрироваться</a>
                     <Modal isOpen={modalSignupIsOpen} onRequestClose={closeModalSignup}>
                         {modalContentSignup}
                     </Modal>
@@ -199,8 +199,6 @@ function App({onSubmit}) {
                     <Route path="/tables">
                         <TablePage/>
                     </Route>
-                </div>
-                <div className="col-span-5">
                     <Route path="/favourite">
                         <FavouritePage/>
                     </Route>

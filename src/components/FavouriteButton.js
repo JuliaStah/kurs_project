@@ -10,9 +10,9 @@ function FavouriteButton({ item }) {
     };
 
     return (
-        <button onClick={handleToggleFavorite}>
+        <a onClick={handleToggleFavorite}>
             {isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
-        </button>
+        </a>
     );
 }
 

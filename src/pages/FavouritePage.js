@@ -6,18 +6,20 @@ function FavouritePage() {
 
     return (
         <div>
-            <ul>
+            <div>
                 {favorites.length > 0 ? favorites.map((item, index) => (
-                    <li key={index}>
+                    <div key={index}>
                         <img src={item} alt={`Избранный элемент ${index + 1}`} />
-                        <button className="container flex justify-end" onClick={() => toggleFavorite(item)}>
+                        <a className="container flex justify-end" onClick={() => toggleFavorite(item)}>
                             Удалить из избранного
-                        </button>
-                    </li>
+                        </a>
+                    </div>
                 )) : (
-                    <li>Нет избранной инфографики</li>
+                    <div className="container flex justify-center">
+                        Нет избранной инфографики
+                    </div>
                 )}
-            </ul>
+            </div>
         </div>
     );
 }
