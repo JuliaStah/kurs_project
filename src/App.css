@@ -1,3 +1,12 @@
+.app-background {
+    background-image: url('https://img.freepik.com/free-vector/abstract-purple-wavy-patterned-background_53876-176287.jpg?semt=ais_hybrid&w=740');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
 .modal-container {
     background-color: black;
     color: white;
@@ -45,4 +54,16 @@
     padding: 10px;
     border-radius: 4px;
     border: 1px solid #ccc;
+}
+
+.text-white {
+    color: white;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.hover\:underline:hover {
+    text-decoration: underline;
 }

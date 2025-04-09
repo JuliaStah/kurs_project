@@ -1,8 +1,36 @@
 import React from 'react';
 import { useFavorites } from '../context/FavouriteContext';
+import {supabase} from "../client/SupabaseClient";
+import {useEffect, useState} from "react";
 
 function FavouritePage() {
     const { favorites, toggleFavorite } = useFavorites();
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const { data: { user }, error } = await supabase.auth.getUser();
+            if (error) {
+                console.error('Ошибка получения пользователя:', error);
+            } else {
+                setUser(user);
+            }
+            setLoading(false);
+        };
+
+        fetchUser();
+    },[]);
+
+    if (loading) {
+        return <div className='text-purple-500'>Загрузка...</div>;
+    }
+
+    if (!user) {
+        return <div className='container flex justify-center text-purple-500'>
+            Войдите в аккаунт, чтобы добавлять инфографические материалы в избранное.
+        </div>;
+    }
 
     return (
         <div>
@@ -15,7 +43,7 @@ function FavouritePage() {
                         </a>
                     </div>
                 )) : (
-                    <div className="container flex justify-center">
+                    <div className="container flex justify-center text-purple-500">
                         Нет избранной инфографики
                     </div>
                 )}

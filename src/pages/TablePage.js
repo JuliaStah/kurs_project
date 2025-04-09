@@ -7,8 +7,36 @@ import TableThreeImgJPG from "../images/tables/table-3.jpg";
 import TableOneImgPPTX from "../images/tables/table-1.pptx";
 import TableTwoImgPPTX from "../images/tables/table-2.pptx";
 import TableThreeImgPPTX from "../images/tables/table-3.pptx";
+import {supabase} from "../client/SupabaseClient";
+import {useEffect, useState} from "react";
 
 function TablePage() {
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const { data: { user }, error } = await supabase.auth.getUser();
+            if (error) {
+                console.error('Ошибка получения пользователя:', error);
+            } else {
+                setUser(user);
+            }
+            setLoading(false);
+        };
+
+        fetchUser();
+    },[]);
+
+    if (loading) {
+        return <div className='text-purple-500'>Загрузка...</div>;
+    }
+
+    if (!user) {
+        return <div className='container flex justify-center text-purple-500'>Просмотр инфографических материалов доступен только авторизованным пользователям.
+            Пожалуйста, войдите в аккаунт.</div>;
+    }
+
     return (
         <div>
             <div>

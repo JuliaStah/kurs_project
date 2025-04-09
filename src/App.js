@@ -1,5 +1,4 @@
 import 'bulma/css/bulma.css';
-import Modal from 'react-modal';
 import "./App.css";
 import Sidebar from "./components/Sidebar";
 import Route from "./components/Route";
@@ -7,18 +6,33 @@ import DiagramPage from "./pages/DiagramPage";
 import TablePage from "./pages/TablePage";
 import FavouritePage from "./pages/FavouritePage";
 import DownloadPage from "./pages/DownloadPage";
-import {useState} from "react";
+import SignUpPage from "./auth/sign-up/SignUpPage";
+import LoginPage from "./auth/login/LoginPage";
+import {useEffect, useState} from "react";
+import {supabase} from "./client/SupabaseClient";
 
-function App({onSubmit}) {
+function App() {
     const [modalLoginIsOpen, setModalLoginIsOpen] = useState(false);
     const [modalSignupIsOpen, setModalSignupIsOpen] = useState(false);
-    const [loginEmail, setLoginEmail] = useState('');
-    const [loginPassword, setLoginPassword] = useState('');
-    const [signupEmail, setSignupEmail] = useState('');
-    const [signupPassword, setSignupPassword] = useState('');
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [username, setUsername] = useState('');
-    const [message, setMessage] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const getUsername = async (userId) => {
+        const { data, error } = await supabase
+            .from('users')
+            .select('username')
+            .eq('id', userId)
+            .single();
+
+        if (error) {
+            console.error('Error fetching username:', error);
+            return null;
+        }
+
+        return data?.username;
+    };
+
+
 
     const openModalLogin = () => {
         setModalLoginIsOpen(true);
@@ -36,158 +50,88 @@ function App({onSubmit}) {
         setModalSignupIsOpen(false);
     };
 
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        setMessage('');
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        setIsAuthenticated(false);
+        setUsername('');
+        window.location.href = "/";
+    };
 
-        try {
-            const response = await fetch('/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, signupEmail, signupPassword }),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Ошибка регистрации');
-            }
-
-            const data = await response.json();
-            setMessage(data.message);
-            setUsername('');
-            setSignupEmail('');
-            setSignupPassword('');
-            closeModalSignup();
-
-        } catch (error) {
-            setMessage(`Ошибка: ${error.message}`);
+    const handleSuccessfulLogin = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+            const fetchedUsername = await getUsername(user.id);
+            setUsername(fetchedUsername || user.email.split('@')[0]);
+            setIsAuthenticated(true);
         }
+    };
 
-        try {
-            const response = await fetch('/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ loginEmail, loginPassword }),
-            });
+    const handleSuccessfulSignup = () => {
+        setIsAuthenticated(true);
+        closeModalSignup();
+    };
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Ошибка входа');
+    useEffect(() => {
+        const checkSession = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                setIsAuthenticated(true);
+                const username = await getUsername(session.user.id);
+                setUsername(username);
             }
-
-            const data = await response.json();
-            setMessage(data.message);
-            setIsLoggedIn(true);
-            localStorage.setItem('authToken', data.token);
-            closeModalLogin();
-
-        } catch (error) {
-            setMessage(`Ошибка: ${error.message}`);
-        }
-
-        setIsLoggedIn(true);
-    };
-
-    const handleChangeLoginEmail = (event) => {
-        setLoginEmail(event.target.value);
-    };
-
-    const handleChangeLoginPassword = (event) => {
-        setLoginPassword(event.target.value);
-    };
-
-    const handleChangeSignupEmail = (event) => {
-        setSignupEmail(event.target.value);
-    };
-
-    const handleChangeSignupPassword = (event) => {
-        setSignupPassword(event.target.value);
-    };
-
-    const handleChangeUsername = (event) => {
-        setUsername(event.target.value);
-    };
-
-    const modalContentLogin = (
-        <div className="modal-overlay">
-            <div className="modal-container">
-                <h2>Войти в систему</h2>
-                <div>
-                    <form onSubmit={handleFormSubmit}>
-                        <div>
-                            <label className="label">Введите эл. почту:</label>
-                            <input type="email" className="input" value={loginEmail} onChange={handleChangeLoginEmail} required/>
-                        </div>
-                        <div>
-                            <label className="label">Введите пароль:</label>
-                            <input type="password" className="input" value={loginPassword} onChange={handleChangeLoginPassword} required/>
-                        </div>
-                    </form>
-                </div>
-                <div>
-                    <button onClick={handleFormSubmit}>Войти</button>
-                </div>
-                <div>
-                    <button onClick={closeModalLogin}>Закрыть</button>
-                </div>
-            </div>
-        </div>
-    );
-
-    const modalContentSignup = (
-        <div className="modal-overlay">
-            <div className="modal-container">
-                <h2>Создать аккаунт</h2>
-                <div>
-                    <form onSubmit={handleFormSubmit}>
-                        <div>
-                            <label className="label">Введите имя пользователя:</label>
-                            <input type="text" className="input" value={username} onChange={handleChangeUsername} required/>
-                        </div>
-                        <div>
-                            <label className="label">Введите эл. почту:</label>
-                            <input type="email" className="input" value={signupEmail} onChange={handleChangeSignupEmail} required/>
-                        </div>
-                        <div>
-                            <label className="label">Введите пароль:</label>
-                            <input type="password" className="input" value={signupPassword} onChange={handleChangeSignupPassword} required/>
-                        </div>
-                    </form>
-                </div>
-                <div>
-                    <button onClick={handleFormSubmit}>Зарегистрироваться</button>
-                </div>
-                <div>
-                    <button onClick={closeModalSignup}>Закрыть</button>
-                </div>
-            </div>
-        </div>
-    );
+        };
+        checkSession();
+    }, []);
 
     return (
-        <div>
+        <div className='app-background'>
             <div className="hero is-dark">
                 <div className="hero-body">
-                    <a href="/" className="title is-2">InfoGraphic</a>
+                    <a href="/"
+                       className="title is-2"
+                       onClick={async (e) => {
+                           e.preventDefault();
+                           await new Promise(resolve => setTimeout(resolve, 50));
+                           window.location.href = "/";
+                       }}
+                    >
+                        InfoGraphic
+                    </a>
                     <p className="subtitle is-6">Инфографика для презентаций</p>
                 </div>
             </div>
             <div className="container flex justify-end gap-4 mt-2">
-                <div>
-                    <a onClick={openModalLogin}>Войти</a>
-                    <Modal isOpen={modalLoginIsOpen} onRequestClose={closeModalLogin}>
-                        {modalContentLogin}
-                    </Modal>
-                </div>
-                <div>
-                    <a onClick={openModalSignup}>Зарегистрироваться</a>
-                    <Modal isOpen={modalSignupIsOpen} onRequestClose={closeModalSignup}>
-                        {modalContentSignup}
-                    </Modal>
+                <div className='flex items-center gap-4'>
+                    {isAuthenticated ? (
+                        <>
+                            <span className="text-purple-500">
+                                Добро пожаловать, {username || 'Пользователь'}
+                            </span>
+                            <a className='cursor-pointer hover:underline' onClick={handleLogout}>Выйти</a>
+                        </>
+                    ) : (
+                        <div className="flex gap-4">
+                            <a className='cursor-pointer hover:underline' onClick={openModalLogin}>
+                                Войти
+                            </a>
+                            {modalLoginIsOpen && (
+                                <LoginPage
+                                    closeModalLogin={closeModalLogin}
+                                    onSuccessfulLogin={handleSuccessfulLogin}
+                                />
+                            )}
+
+                            <a className='cursor-pointer hover:underline' onClick={openModalSignup}>
+                                Зарегистрироваться
+                            </a>
+                            {modalSignupIsOpen && (
+                                <SignUpPage
+                                    closeModalSignup={closeModalSignup}
+                                    onSuccessfulSignup={handleSuccessfulSignup}
+                                />
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="container mx-auto grid grid-cols-6 gap-4 mt-3">
